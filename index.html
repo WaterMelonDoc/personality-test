@@ -254,19 +254,28 @@
 
   const questionEl = document.getElementById("question");
   const answersEl = document.getElementById("answers");
+  const progressBar = document.getElementById("progressBar");
 
-  function showQuestion() {
-    const q = questions[currentQuestion];
-    questionEl.textContent = q.text;
-    answersEl.innerHTML = "";
 
-    q.answers.forEach(answer => {
-      const btn = document.createElement("button");
-      btn.textContent = answer.text;
-      btn.onclick = () => selectAnswer(answer.type);
-      answersEl.appendChild(btn);
-    });
-  }
+ function showQuestion() {
+  const q = questions[currentQuestion];
+  questionEl.textContent = q.text;
+  answersEl.innerHTML = "";
+
+  // 👉 UPDATE PROGRESS BAR HERE
+  const progressPercent = (currentQuestion / questions.length) * 100;
+  progressBar.style.width = progressPercent + "%";
+
+  q.answers.forEach(answer => {
+    const btn = document.createElement("button");
+    btn.textContent = answer.text;
+    btn.onclick = () => selectAnswer(answer.type);
+    answersEl.appendChild(btn);
+  });
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
 
   function selectAnswer(type) {
     scores[type]++;
@@ -282,6 +291,8 @@
   function showResult() {
     document.getElementById("quiz").style.display = "none";
     document.getElementById("result").style.display = "block";
+    progressBar.style.width = "100%";
+
 
     const resultType = Object.keys(scores).reduce((a, b) =>
       scores[a] > scores[b] ? a : b
@@ -315,6 +326,8 @@
     scores = { thinker: 0, goGetter: 0, connector: 0, harmonizer: 0 };
     document.getElementById("quiz").style.display = "block";
     document.getElementById("result").style.display = "none";
+    progressBar.style.width = "0%";
+
     showQuestion();
   }
 
@@ -323,4 +336,5 @@
 
 </body>
 </html>
+
 
