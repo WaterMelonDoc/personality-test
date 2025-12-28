@@ -192,27 +192,73 @@
       text: "What motivates you the most?",
       answers: [
         { text: "Understanding", type: "thinker" },
-        { text: "Winning", type: "goGetter" },
-        { text: "Connection", type: "connector" },
+        { text: "Winning and achieving", type: "goGetter" },
+        { text: "Feeling connected", type: "connector" },
         { text: "Inner peace", type: "harmonizer" }
+      ]
+    },
+    {
+      text: "Your biggest strength is…",
+      answers: [
+        { text: "Clear thinking", type: "thinker" },
+        { text: "Bold action", type: "goGetter" },
+        { text: "Empathy", type: "connector" },
+        { text: "Patience", type: "harmonizer" }
+      ]
+    },
+    {
+      text: "When plans suddenly change, you feel…",
+      answers: [
+        { text: "Annoyed but adaptable", type: "thinker" },
+        { text: "Excited", type: "goGetter" },
+        { text: "Concerned for others", type: "connector" },
+        { text: "Stressed", type: "harmonizer" }
+      ]
+    },
+    {
+      text: "People often describe you as…",
+      answers: [
+        { text: "Thoughtful", type: "thinker" },
+        { text: "Driven", type: "goGetter" },
+        { text: "Friendly", type: "connector" },
+        { text: "Calm", type: "harmonizer" }
+      ]
+    },
+    {
+      text: "You feel most satisfied when you…",
+      answers: [
+        { text: "Solve a problem", type: "thinker" },
+        { text: "See results", type: "goGetter" },
+        { text: "Help someone", type: "connector" },
+        { text: "Feel balanced", type: "harmonizer" }
+      ]
+    },
+    {
+      text: "You value more…",
+      answers: [
+        { text: "Logic", type: "thinker" },
+        { text: "Courage", type: "goGetter" },
+        { text: "Connection", type: "connector" },
+        { text: "Harmony", type: "harmonizer" }
       ]
     }
   ];
 
   let currentQuestion = 0;
-  let scores = { thinker: 0, goGetter: 0, connector: 0, harmonizer: 0 };
-  let finalType = "";
+  let scores = {
+    thinker: 0,
+    goGetter: 0,
+    connector: 0,
+    harmonizer: 0
+  };
 
   const questionEl = document.getElementById("question");
   const answersEl = document.getElementById("answers");
-  const progressBar = document.getElementById("progressBar");
 
   function showQuestion() {
     const q = questions[currentQuestion];
     questionEl.textContent = q.text;
     answersEl.innerHTML = "";
-
-    progressBar.style.width = (currentQuestion / questions.length) * 100 + "%";
 
     q.answers.forEach(answer => {
       const btn = document.createElement("button");
@@ -220,8 +266,6 @@
       btn.onclick = () => selectAnswer(answer.type);
       answersEl.appendChild(btn);
     });
-
-    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   function selectAnswer(type) {
@@ -238,29 +282,32 @@
   function showResult() {
     document.getElementById("quiz").style.display = "none";
     document.getElementById("result").style.display = "block";
-    progressBar.style.width = "100%";
 
-    finalType = Object.keys(scores).reduce((a, b) =>
+    const resultType = Object.keys(scores).reduce((a, b) =>
       scores[a] > scores[b] ? a : b
     );
 
     const results = {
-      thinker: ["🧠 The Thinker", "Logical, analytical, and thoughtful."],
-      goGetter: ["🔥 The Go-Getter", "Bold, driven, and action-oriented."],
-      connector: ["💬 The Connector", "Empathetic and socially intelligent."],
-      harmonizer: ["🌱 The Harmonizer", "Calm, reflective, and peace-loving."]
+      thinker: {
+        title: "🧠 The Thinker",
+        text: "You are logical, analytical, and thoughtful. You value understanding and clarity before making decisions."
+      },
+      goGetter: {
+        title: "🔥 The Go-Getter",
+        text: "You are bold, driven, and action-oriented. You thrive on challenges and taking initiative."
+      },
+      connector: {
+        title: "💬 The Connector",
+        text: "You are empathetic, social, and expressive. Relationships and emotional connection matter deeply to you."
+      },
+      harmonizer: {
+        title: "🌱 The Harmonizer",
+        text: "You value peace, balance, and emotional well-being. You seek calm and avoid unnecessary conflict."
+      }
     };
 
-    document.getElementById("resultTitle").textContent = results[finalType][0];
-    document.getElementById("resultText").textContent = results[finalType][1];
-
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }
-
-  function shareResult() {
-    const text = `I got "${document.getElementById("resultTitle").textContent}" on this personality quiz! Try it here 👉 ${window.location.href}`;
-    navigator.clipboard.writeText(text);
-    alert("Copied! Share it anywhere 🚀");
+    document.getElementById("resultTitle").textContent = results[resultType].title;
+    document.getElementById("resultText").textContent = results[resultType].text;
   }
 
   function restartQuiz() {
@@ -276,3 +323,4 @@
 
 </body>
 </html>
+
