@@ -6,105 +6,133 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
+    /* ===== ANIMATED BACKGROUND ===== */
     body {
-      font-family: Arial, sans-serif;
-      background: #f7f7f7;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(-45deg, #667eea, #764ba2, #6a11cb, #2575fc);
+      background-size: 400% 400%;
+      animation: gradientBG 12s ease infinite;
+      min-height: 100vh;
       margin: 0;
       padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* ===== MAIN CARD ===== */
     .container {
+      width: 100%;
       max-width: 600px;
-      margin: auto;
-      background: white;
-      padding: 25px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(14px);
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+      color: #ffffff;
     }
 
     h1 {
       text-align: center;
+      margin-bottom: 15px;
+      font-size: 28px;
     }
 
-    /* Progress Bar */
+    /* ===== PROGRESS BAR ===== */
     .progress-container {
       width: 100%;
-      background: #e0e0e0;
+      background: rgba(255,255,255,0.25);
       border-radius: 10px;
       overflow: hidden;
-      margin-bottom: 20px;
+      margin-bottom: 25px;
     }
 
     .progress-bar {
       height: 10px;
       width: 0%;
-      background: #007bff;
-      transition: width 0.3s ease;
+      background: linear-gradient(90deg, #00f2fe, #4facfe);
+      transition: width 0.4s ease;
     }
 
+    /* ===== QUESTIONS ===== */
     .question {
-      font-size: 18px;
-      margin-bottom: 15px;
+      font-size: 20px;
+      margin-bottom: 20px;
+      text-align: center;
     }
 
     .answers button {
-      display: block;
       width: 100%;
-      margin-bottom: 10px;
-      padding: 12px;
+      margin-bottom: 12px;
+      padding: 14px;
       font-size: 16px;
+      border-radius: 10px;
       border: none;
-      border-radius: 6px;
       cursor: pointer;
-      background: #eaeaea;
+      background: rgba(255,255,255,0.85);
+      color: #222;
+      transition: transform 0.15s ease, background 0.15s ease;
     }
 
     .answers button:hover {
-      background: #dcdcdc;
+      transform: scale(1.03);
+      background: #ffffff;
     }
 
+    /* ===== RESULT ===== */
     #result {
       display: none;
       text-align: center;
     }
 
     .result-title {
-      font-size: 26px;
+      font-size: 30px;
       margin-bottom: 10px;
     }
 
     .result-text {
-      font-size: 16px;
-      margin-bottom: 20px;
+      font-size: 17px;
+      margin-bottom: 25px;
+      opacity: 0.95;
     }
 
     .share-btn, .restart {
-      padding: 12px;
       width: 100%;
+      padding: 14px;
       font-size: 16px;
+      border-radius: 10px;
       border: none;
-      border-radius: 6px;
       cursor: pointer;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
+      font-weight: 600;
     }
 
     .share-btn {
-      background: #28a745;
-      color: white;
+      background: linear-gradient(90deg, #00f2fe, #4facfe);
+      color: #000;
     }
 
     .restart {
-      background: #007bff;
-      color: white;
+      background: rgba(255,255,255,0.85);
+      color: #222;
+    }
+
+    .share-btn:hover, .restart:hover {
+      opacity: 0.9;
     }
   </style>
 </head>
 <body>
 
-<div class="container" id="top">
-  <h1>Personality Quiz</h1>
+<div class="container">
+  <h1>What’s Your Personality?</h1>
 
-  <!-- Progress Bar -->
   <div class="progress-container">
     <div class="progress-bar" id="progressBar"></div>
   </div>
@@ -164,54 +192,9 @@
       text: "What motivates you the most?",
       answers: [
         { text: "Understanding", type: "thinker" },
-        { text: "Winning and achieving", type: "goGetter" },
-        { text: "Feeling connected", type: "connector" },
-        { text: "Inner peace", type: "harmonizer" }
-      ]
-    },
-    {
-      text: "Your biggest strength is…",
-      answers: [
-        { text: "Clear thinking", type: "thinker" },
-        { text: "Bold action", type: "goGetter" },
-        { text: "Empathy", type: "connector" },
-        { text: "Patience", type: "harmonizer" }
-      ]
-    },
-    {
-      text: "When plans suddenly change, you feel…",
-      answers: [
-        { text: "Annoyed but adaptable", type: "thinker" },
-        { text: "Excited", type: "goGetter" },
-        { text: "Concerned for others", type: "connector" },
-        { text: "Stressed", type: "harmonizer" }
-      ]
-    },
-    {
-      text: "People often describe you as…",
-      answers: [
-        { text: "Thoughtful", type: "thinker" },
-        { text: "Driven", type: "goGetter" },
-        { text: "Friendly", type: "connector" },
-        { text: "Calm", type: "harmonizer" }
-      ]
-    },
-    {
-      text: "You feel most satisfied when you…",
-      answers: [
-        { text: "Solve a problem", type: "thinker" },
-        { text: "See results", type: "goGetter" },
-        { text: "Help someone", type: "connector" },
-        { text: "Feel balanced", type: "harmonizer" }
-      ]
-    },
-    {
-      text: "You value more…",
-      answers: [
-        { text: "Logic", type: "thinker" },
-        { text: "Courage", type: "goGetter" },
+        { text: "Winning", type: "goGetter" },
         { text: "Connection", type: "connector" },
-        { text: "Harmony", type: "harmonizer" }
+        { text: "Inner peace", type: "harmonizer" }
       ]
     }
   ];
@@ -229,7 +212,7 @@
     questionEl.textContent = q.text;
     answersEl.innerHTML = "";
 
-    updateProgress();
+    progressBar.style.width = (currentQuestion / questions.length) * 100 + "%";
 
     q.answers.forEach(answer => {
       const btn = document.createElement("button");
@@ -252,11 +235,6 @@
     }
   }
 
-  function updateProgress() {
-    const percent = (currentQuestion / questions.length) * 100;
-    progressBar.style.width = percent + "%";
-  }
-
   function showResult() {
     document.getElementById("quiz").style.display = "none";
     document.getElementById("result").style.display = "block";
@@ -267,34 +245,22 @@
     );
 
     const results = {
-      thinker: {
-        title: "🧠 The Thinker",
-        text: "Logical, analytical, and thoughtful. You value understanding and clarity."
-      },
-      goGetter: {
-        title: "🔥 The Go-Getter",
-        text: "Bold, driven, and action-oriented. You thrive on challenges."
-      },
-      connector: {
-        title: "💬 The Connector",
-        text: "Empathetic and social. You value deep connections."
-      },
-      harmonizer: {
-        title: "🌱 The Harmonizer",
-        text: "Peaceful and reflective. You seek balance and calm."
-      }
+      thinker: ["🧠 The Thinker", "Logical, analytical, and thoughtful."],
+      goGetter: ["🔥 The Go-Getter", "Bold, driven, and action-oriented."],
+      connector: ["💬 The Connector", "Empathetic and socially intelligent."],
+      harmonizer: ["🌱 The Harmonizer", "Calm, reflective, and peace-loving."]
     };
 
-    document.getElementById("resultTitle").textContent = results[finalType].title;
-    document.getElementById("resultText").textContent = results[finalType].text;
+    document.getElementById("resultTitle").textContent = results[finalType][0];
+    document.getElementById("resultText").textContent = results[finalType][1];
 
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   function shareResult() {
-    const text = `I got "${document.getElementById("resultTitle").textContent}" on this personality quiz! Try it yourself 👉 ${window.location.href}`;
+    const text = `I got "${document.getElementById("resultTitle").textContent}" on this personality quiz! Try it here 👉 ${window.location.href}`;
     navigator.clipboard.writeText(text);
-    alert("Result copied! Share it anywhere 🎉");
+    alert("Copied! Share it anywhere 🚀");
   }
 
   function restartQuiz() {
