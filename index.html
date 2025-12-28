@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Personality Quiz</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    /* Progress Bar */
+    .progress-container {
+      width: 100%;
+      background: #e0e0e0;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .progress-bar {
+      height: 10px;
+      width: 0%;
+      background: #007bff;
+      transition: width 0.3s ease;
+    }
+
+    .question {
+      font-size: 18px;
+      margin-bottom: 15px;
+    }
+
+    .answers button {
+      display: block;
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background: #eaeaea;
+    }
+
+    .answers button:hover {
+      background: #dcdcdc;
+    }
+
+    #result {
+      display: none;
+      text-align: center;
+    }
+
+    .result-title {
+      font-size: 26px;
+      margin-bottom: 10px;
+    }
+
+    .result-text {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+
+    .share-btn, .restart {
+      padding: 12px;
+      width: 100%;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+
+    .share-btn {
+      background: #28a745;
+      color: white;
+    }
+
+    .restart {
+      background: #007bff;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container" id="top">
+  <h1>Personality Quiz</h1>
+
+  <!-- Progress Bar -->
+  <div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <div id="quiz">
+    <div class="question" id="question"></div>
+    <div class="answers" id="answers"></div>
+  </div>
+
+  <div id="result">
+    <div class="result-title" id="resultTitle"></div>
+    <div class="result-text" id="resultText"></div>
+    <button class="share-btn" onclick="shareResult()">Share Your Result</button>
+    <button class="restart" onclick="restartQuiz()">Take Again</button>
+  </div>
+</div>
+
+<script>
+  const questions = [
+    {
+      text: "When faced with a tough decision, you usually…",
+      answers: [
+        { text: "Analyze all possible outcomes", type: "thinker" },
+        { text: "Act quickly and confidently", type: "goGetter" },
+        { text: "Talk it through with someone", type: "connector" },
+        { text: "Choose what feels peaceful", type: "harmonizer" }
+      ]
+    },
+    {
+      text: "Your ideal weekend looks like…",
+      answers: [
+        { text: "Learning or planning ahead", type: "thinker" },
+        { text: "Doing something exciting", type: "goGetter" },
+        { text: "Spending time with people", type: "connector" },
+        { text: "Relaxing quietly", type: "harmonizer" }
+      ]
+    },
+    {
+      text: "In a group project, you are usually the…",
+      answers: [
+        { text: "Strategist", type: "thinker" },
+        { text: "Leader", type: "goGetter" },
+        { text: "Communicator", type: "connector" },
+        { text: "Mediator", type: "harmonizer" }
+      ]
+    },
+    {
+      text: "When someone disagrees with you, you tend to…",
+      answers: [
+        { text: "Ask for their reasoning", type: "thinker" },
+        { text: "Defend your position", type: "goGetter" },
+        { text: "Understand their view", type: "connector" },
+        { text: "Avoid conflict", type: "harmonizer" }
+      ]
+    },
+    {
+      text: "What motivates you the most?",
+      answers: [
+        { text: "Understanding", type: "thinker" },
+        { text: "Winning and achieving", type: "goGetter" },
+        { text: "Feeling connected", type: "connector" },
+        { text: "Inner peace", type: "harmonizer" }
+      ]
+    },
+    {
+      text: "Your biggest strength is…",
+      answers: [
+        { text: "Clear thinking", type: "thinker" },
+        { text: "Bold action", type: "goGetter" },
+        { text: "Empathy", type: "connector" },
+        { text: "Patience", type: "harmonizer" }
+      ]
+    },
+    {
+      text: "When plans suddenly change, you feel…",
+      answers: [
+        { text: "Annoyed but adaptable", type: "thinker" },
+        { text: "Excited", type: "goGetter" },
+        { text: "Concerned for others", type: "connector" },
+        { text: "Stressed", type: "harmonizer" }
+      ]
+    },
+    {
+      text: "People often describe you as…",
+      answers: [
+        { text: "Thoughtful", type: "thinker" },
+        { text: "Driven", type: "goGetter" },
+        { text: "Friendly", type: "connector" },
+        { text: "Calm", type: "harmonizer" }
+      ]
+    },
+    {
+      text: "You feel most satisfied when you…",
+      answers: [
+        { text: "Solve a problem", type: "thinker" },
+        { text: "See results", type: "goGetter" },
+        { text: "Help someone", type: "connector" },
+        { text: "Feel balanced", type: "harmonizer" }
+      ]
+    },
+    {
+      text: "You value more…",
+      answers: [
+        { text: "Logic", type: "thinker" },
+        { text: "Courage", type: "goGetter" },
+        { text: "Connection", type: "connector" },
+        { text: "Harmony", type: "harmonizer" }
+      ]
+    }
+  ];
+
+  let currentQuestion = 0;
+  let scores = { thinker: 0, goGetter: 0, connector: 0, harmonizer: 0 };
+  let finalType = "";
+
+  const questionEl = document.getElementById("question");
+  const answersEl = document.getElementById("answers");
+  const progressBar = document.getElementById("progressBar");
+
+  function showQuestion() {
+    const q = questions[currentQuestion];
+    questionEl.textContent = q.text;
+    answersEl.innerHTML = "";
+
+    updateProgress();
+
+    q.answers.forEach(answer => {
+      const btn = document.createElement("button");
+      btn.textContent = answer.text;
+      btn.onclick = () => selectAnswer(answer.type);
+      answersEl.appendChild(btn);
+    });
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function selectAnswer(type) {
+    scores[type]++;
+    currentQuestion++;
+
+    if (currentQuestion < questions.length) {
+      showQuestion();
+    } else {
+      showResult();
+    }
+  }
+
+  function updateProgress() {
+    const percent = (currentQuestion / questions.length) * 100;
+    progressBar.style.width = percent + "%";
+  }
+
+  function showResult() {
+    document.getElementById("quiz").style.display = "none";
+    document.getElementById("result").style.display = "block";
+    progressBar.style.width = "100%";
+
+    finalType = Object.keys(scores).reduce((a, b) =>
+      scores[a] > scores[b] ? a : b
+    );
+
+    const results = {
+      thinker: {
+        title: "🧠 The Thinker",
+        text: "Logical, analytical, and thoughtful. You value understanding and clarity."
+      },
+      goGetter: {
+        title: "🔥 The Go-Getter",
+        text: "Bold, driven, and action-oriented. You thrive on challenges."
+      },
+      connector: {
+        title: "💬 The Connector",
+        text: "Empathetic and social. You value deep connections."
+      },
+      harmonizer: {
+        title: "🌱 The Harmonizer",
+        text: "Peaceful and reflective. You seek balance and calm."
+      }
+    };
+
+    document.getElementById("resultTitle").textContent = results[finalType].title;
+    document.getElementById("resultText").textContent = results[finalType].text;
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function shareResult() {
+    const text = `I got "${document.getElementById("resultTitle").textContent}" on this personality quiz! Try it yourself 👉 ${window.location.href}`;
+    navigator.clipboard.writeText(text);
+    alert("Result copied! Share it anywhere 🎉");
+  }
+
+  function restartQuiz() {
+    currentQuestion = 0;
+    scores = { thinker: 0, goGetter: 0, connector: 0, harmonizer: 0 };
+    document.getElementById("quiz").style.display = "block";
+    document.getElementById("result").style.display = "none";
+    showQuestion();
+  }
+
+  showQuestion();
+</script>
+
+</body>
+</html>
